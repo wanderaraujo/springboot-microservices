@@ -1,6 +1,7 @@
 package com.araujo.microservices.security.config;
 
 import com.araujo.core.property.JwtConfiguration;
+import com.araujo.microservices.security.filter.JwtUserNameAndPasswordAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -36,7 +37,7 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
                 .and()
                     .exceptionHandling().authenticationEntryPoint(((request, response, authException) -> response.sendError(HttpServletResponse.SC_UNAUTHORIZED)))
                 .and()
-                    .addFilter(new UsernamePasswordAuthenticationFilter())
+                    .addFilter(new JwtUserNameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfiguration))
                 .authorizeRequests()
                     .antMatchers(jwtConfiguration.getLoginUrl()).permitAll()
                     .antMatchers("/admin/course").hasRole("ADMIN")
@@ -49,7 +50,7 @@ public class SecurityCredentialsConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    private BCryptPasswordEncoder passwordEncoder(){
+    BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 }

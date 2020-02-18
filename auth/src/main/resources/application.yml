@@ -1,0 +1,28 @@
+server:
+  port: 8083
+
+eureka:
+  instance:
+    prefer-ip-address: true
+  client:
+    service-url:
+      default-zone: http://localhost:8081/eureka/
+    fetch-registry: true
+    register-with-eureka: true
+
+spring:
+  application:
+    name: auth
+  jpa:
+    show-sql: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+  jmx:
+    enable: false
+  datasource:
+    url: jdbc:mysql://localhost:3306/araujo?allowPublicKeyRetrieval=true&sslMode=DISABLED
+    username: root
+    password: admin0012
